@@ -20,7 +20,7 @@ const END_POINTS = {
             "birth_year",
             "height",
             "mass"
-        ]    
+        ]
     },
     planets: {
         apiURL: `${API_URL}/planets`,
@@ -36,19 +36,93 @@ const END_POINTS = {
             "rotation_period",
             "diameter",
             "orbital_period"
-        ]    
-        
+        ]
+
     },
-    films:{
+    films: {
+        apiURL: `${API_URL}/films`,
+        endpoint: 'films',
+        data: [
+            "Title",
+            "Episode_id",
+            "Opening_crawl",
+            "Director",
+            "Producer",
+            "Release_date"
+            
+        ],
+        Values: [
+            "title",
+            "episode_id",
+            "opening_crawl",
+            "director",
+            "producer",
+            "release_date"
+        ]
 
     },
     species: {
+        apiURL: `${API_URL}/species`,
+        endpoint: 'species',
+        data: [
+            "Name",
+            "Classification",
+            "Designation",
+            "Average_height",
+            "Skin_colors",
+            "Hair_colors"
+        ],
+        Values: [
+            "name",
+            "classification",
+            "designation",
+            "average_height",
+            "skin_colors",
+            "hair_colors"
+        ]
+        
 
     },
     vehicles: {
+        apiURL: `${API_URL}/vehicles`,
+        endpoint: 'vehicles',
+        data: [
+            "Name",
+            "Model",
+            "Manufacturer",
+            "Cost_in_credits",
+            "Length",
+            "Max_atmosphering_speed"
+        ],
+        Values: [
+            "name",
+            "model",
+            "manufacturer",
+            "cost_in_credits",
+            "length",
+            "max_atmosphering_speed"
+        ]
 
-    }, 
+    },
     starships: {
+        apiURL: `${API_URL}/starships`,
+        endpoint: 'starships',
+        data: [
+            "Name",
+            "Model",
+            "Manufacturer",
+            "Cost_in_credits",
+            "Length",
+            "Max_atmosphering_speed",
+        ],
+        Values: [
+            "name",
+            "model",
+            "manufacturer",
+            "cost_in_credits",
+            "length",
+            "max_atmosphering_speed",
+        ]
 
     }
 }
@@ -57,7 +131,7 @@ btnNext.addEventListener('click', () => {
     const apiURL = btnNext.dataset['url']
     const endpoint = btnNext.dataset['endpoint']
 
-    if(apiURL !== 'null'){
+    if (apiURL !== 'null') {
         END_POINTS[endpoint].apiURL = apiURL
         drawDataTable(endpoint)
     }
@@ -67,7 +141,7 @@ btnPrevious.addEventListener('click', () => {
     const apiURL = btnPrevious.dataset['url']
     const endpoint = btnPrevious.dataset['endpoint']
 
-    if(apiURL !== 'null'){
+    if (apiURL !== 'null') {
         END_POINTS[endpoint].apiURL = apiURL
         drawDataTable(endpoint)
     }
@@ -75,8 +149,8 @@ btnPrevious.addEventListener('click', () => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-btnNext.style.display  = 'none'
-btnPrevious.style.display = 'none'
+    btnNext.style.display = 'none'
+    btnPrevious.style.display = 'none'
 
     const head = document.createElement('tr')
     head.innerHTML = `
@@ -85,26 +159,26 @@ btnPrevious.style.display = 'none'
     `
     tableHead.appendChild(head)
 
-fetch(`${API_URL}/`)
-    .then(response => response.json())
-    .then(data => {
-        const result = Object.entries(data)
-        result.forEach(result => {
-            const row = document.createElement('tr')
-            row.innerHTML = `
+    fetch(`${API_URL}/`)
+        .then(response => response.json())
+        .then(data => {
+            const result = Object.entries(data)
+            result.forEach(result => {
+                const row = document.createElement('tr')
+                row.innerHTML = `
                 <td>${result[0]}</td>
                 <td>
                     <a href="#" class="${result[0]}">${result[1]}</a>
                 </td>
             `
-            tableBody.appendChild(row)
-        })       
-    })
+                tableBody.appendChild(row)
+            })
+        })
 })
 
 const drawEndpoints = () => {
-    btnNext.style.display  = 'none'
-btnPrevious.style.display = 'none'
+    btnNext.style.display = 'none'
+    btnPrevious.style.display = 'none'
 
     const head = document.createElement('tr')
     head.innerHTML = `
@@ -113,21 +187,21 @@ btnPrevious.style.display = 'none'
     `
     tableHead.appendChild(head)
 
-fetch(`${API_URL}/`)
-    .then(response => response.json())
-    .then(data => {
-        const result = Object.entries(data)
-        result.forEach(result => {
-            const row = document.createElement('tr')
-            row.innerHTML = `
+    fetch(`${API_URL}/`)
+        .then(response => response.json())
+        .then(data => {
+            const result = Object.entries(data)
+            result.forEach(result => {
+                const row = document.createElement('tr')
+                row.innerHTML = `
                 <td>${result[0]}</td>
                 <td>
                     <a href="#" class="${result[0]}">${result[1]}</a>
                 </td>
             `
-            tableBody.appendChild(row)
-        })       
-    })
+                tableBody.appendChild(row)
+            })
+        })
 }
 
 tableBody.addEventListener('click', (e) => {
@@ -138,13 +212,13 @@ tableBody.addEventListener('click', (e) => {
 
 const drawTable = (endpoint) => {
 
-    btnNext.style.display  = 'block'
+    btnNext.style.display = 'block'
     btnPrevious.style.display = 'block'
 
     tableHead.innerHTML = ''
     tableBody.innerHTML = ''
 
-    const {data} = END_POINTS[endpoint]
+    const { data } = END_POINTS[endpoint]
 
     const head = document.createElement('tr')
 
@@ -159,27 +233,27 @@ const drawTable = (endpoint) => {
 const drawDataTable = (endpoint) => {
 
     tableBody.innerHTML = ''
-    const {apiURL, Values} = END_POINTS[endpoint]
+    const { apiURL, Values } = END_POINTS[endpoint]
 
     fetch(apiURL)
-    .then(response => response.json())
-    .then(data => {
-        const {next, previous, results} = data
+        .then(response => response.json())
+        .then(data => {
+            const { next, previous, results } = data
 
-        btnNext.setAttribute('data-url', next)
-        btnNext.setAttribute('data-endpoint', endpoint)
+            btnNext.setAttribute('data-url', next)
+            btnNext.setAttribute('data-endpoint', endpoint)
 
-        btnPrevious.setAttribute('data-url', previous)
-        btnPrevious.setAttribute('data-endpoint', endpoint)
-        
-        results.forEach(result => {
-            const row = document.createElement('tr')
-            Values.forEach(value => {
-                const td = document.createElement('td')
-                td.innerHTML = `${result[value]}`
-                row.appendChild(td)
+            btnPrevious.setAttribute('data-url', previous)
+            btnPrevious.setAttribute('data-endpoint', endpoint)
+
+            results.forEach(result => {
+                const row = document.createElement('tr')
+                Values.forEach(value => {
+                    const td = document.createElement('td')
+                    td.innerHTML = `${result[value]}`
+                    row.appendChild(td)
+                })
+                tableBody.appendChild(row)
             })
-            tableBody.appendChild(row)
         })
-    })
 }
